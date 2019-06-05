@@ -59,3 +59,7 @@ $argv += @("-stopaction", (ensure-quoted "init:stop()."))
 $argv += @("-args", (ensure-quoted $service_args))
 
 & $erlsrv @argv
+
+$service = Get-Service -Displayname $service_name | select -property name
+$scArgs = 'config "{0}" start=delayed-auto' -f $service.name
+Start-Process -FilePath sc.exe -ArgumentList $scArgs
